@@ -14,7 +14,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeComponents from "rehype-components"; /* Render the custom directive content */
 import rehypeKatex from "rehype-katex";
 import "katex/dist/contrib/mhchem.mjs"; // 加载 mhchem 扩展
-import cloudflare from "@astrojs/cloudflare";
+import vercel from "@astrojs/vercel";
 import mdx from "@astrojs/mdx";
 import { pluginCollapsible } from "expressive-code-collapsible"; /* Collapsible */
 import { pluginLanguageBadge } from "expressive-code-language-badge"; /* Language Badge */
@@ -43,12 +43,6 @@ if (process.env.NODE_ENV === "development") {
 	setMaxListeners(20);
 }
 
-const adapter = process.env.CF_WORKERS
-	? cloudflare({
-			prerenderEnvironment: "node",
-		})
-	: undefined;
-
 // https://astro.build/config
 export default defineConfig({
 	site: siteConfig.site_url,
@@ -56,7 +50,7 @@ export default defineConfig({
 	base: "/",
 	trailingSlash: "always",
 
-	adapter,
+	adapter: vercel(),
 
 	// 图像优化配置
 	image: {
